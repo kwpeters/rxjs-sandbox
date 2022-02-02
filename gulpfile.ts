@@ -26,7 +26,7 @@ const tmpDir  = new Directory(__dirname, "tmp");
 // These scripts will be made executable.
 //
 const scripts: Array<string> = [
-    path.join("src", "create.js"),
+    path.join("src", "observableConstructor.js"),
 ];
 
 const sep = hr("-");
