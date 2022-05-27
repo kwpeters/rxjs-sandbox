@@ -1,39 +1,31 @@
 import {Observable, of, throwError} from "rxjs";
 import {switchMap} from "rxjs/operators";
 
-if (require.main === module)
-{
+if (require.main === module) {
     main()
-    .then((exitCode) =>
-    {
-        if (exitCode !== 0)
-        {
+    .then((exitCode) => {
+        if (exitCode !== 0) {
             process.exit(exitCode);
         }
     })
 
-    .catch((err) =>
-    {
+    .catch((err) => {
         console.error(JSON.stringify(err, undefined, 4));
         process.exit(-1);
     });
 }
 
 
-function main(): Promise<number>
-{
+function main(): Promise<number> {
 
     const number$ = createCountingObservable(10)
-    .pipe(switchMap((val) =>
-    {
+    .pipe(switchMap((val) => {
         // The following is not logged after the stream errors.
         console.log(`... processing ${val}...`);
-        if (val < 6)
-        {
+        if (val < 6) {
             return of(val);
         }
-        else
-        {
+        else {
             return throwError(new Error("Value is not less than 6."));
         }
     }));
@@ -48,17 +40,13 @@ function main(): Promise<number>
 }
 
 
-function createCountingObservable(iterations: number, period = 1000): Observable<number>
-{
-    return new Observable<number>((subscriber) =>
-    {
+function createCountingObservable(iterations: number, period = 1000): Observable<number> {
+    return new Observable<number>((subscriber) => {
         let iterationsDone = 0;
-        const timeoutHandler = () =>
-        {
+        const timeoutHandler = () => {
             iterationsDone++;
             subscriber.next(iterationsDone);
-            if (iterationsDone < iterations)
-            {
+            if (iterationsDone < iterations) {
                 setTimeout(timeoutHandler, period);
             }
             else {

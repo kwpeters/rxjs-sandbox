@@ -1,27 +1,22 @@
 import {Observable} from "rxjs";
 
 
-if (require.main === module)
-{
+if (require.main === module) {
     main()
-    .then((exitCode) =>
-    {
-        if (exitCode !== 0)
-        {
+    .then((exitCode) => {
+        if (exitCode !== 0) {
             process.exit(exitCode);
         }
     })
 
-    .catch((err) =>
-    {
+    .catch((err) => {
         console.error(JSON.stringify(err, undefined, 4));
         process.exit(-1);
     });
 }
 
 
-function main(): Promise<number>
-{
+function main(): Promise<number> {
     // Question: When an observable is subscribed to after it has already
     // started emitting values, does that late subscriber see all the values from
     // the beginning of the stream?
@@ -31,24 +26,19 @@ function main(): Promise<number>
     const number$ = createCountingObservable(10);
 
     number$.subscribe(
-        (val) =>
-        {
+        (val) => {
             console.log(val);
-            if (val === 5)
-            {
+            if (val === 5) {
                 console.log("Creating second subscription.");
-                number$.subscribe((val2) =>
-                {
+                number$.subscribe((val2) => {
                     console.log(`subscription 2: ${val2}`);
                 });
             }
         },
-        (err) =>
-        {
+        (err) => {
             console.log(`Errored: ${err}`);
         },
-        () =>
-        {
+        () => {
             console.log(`Completed.`);
         }
     );
@@ -57,17 +47,13 @@ function main(): Promise<number>
 }
 
 
-function createCountingObservable(iterations: number, period = 1000): Observable<number>
-{
-    return new Observable<number>((subscriber) =>
-    {
+function createCountingObservable(iterations: number, period = 1000): Observable<number> {
+    return new Observable<number>((subscriber) => {
         let iterationsDone = 0;
-        const timeoutHandler = () =>
-        {
+        const timeoutHandler = () => {
             iterationsDone++;
             subscriber.next(iterationsDone);
-            if (iterationsDone < iterations)
-            {
+            if (iterationsDone < iterations) {
                 setTimeout(timeoutHandler, period);
             }
             else {
