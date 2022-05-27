@@ -26,7 +26,7 @@ function main(): Promise<number>
     // started emitting values, does that late subscriber see all the values from
     // the beginning of the stream?
 
-    // Answer: Yes.
+    // Answer: Yes.  This is what it means to be a "cold" observable.
 
     const number$ = createCountingObservable(10);
 
